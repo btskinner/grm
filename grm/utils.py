@@ -6,11 +6,13 @@ def printOpts(optlist):
         print('(', optlist.index(l) + 1, ')', l)
 
 def promptMessage(text, char = '-'):
+    print('\n')
     print(char * len(text))
     print(text)
     print(char * len(text), end = '\n\n')
 
 def errorMessage(text):
+    print('\n')
     print('ERROR: ', end = '')
     print(text, end = '\n\n')
 
@@ -38,3 +40,4 @@ def pickOpt(prompt, optlist):
             continue
 
         return choice - 1
+

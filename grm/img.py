@@ -21,9 +21,3 @@ Author: Benjamin Skinner
 URL: https://github.com/btskinner/grm
 LICENSE: MIT
 '''
-
-closeout = '''
-
------------------------------ Exit GitRoom Manager -----------------------------
-
-'''

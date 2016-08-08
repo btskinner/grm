@@ -3,7 +3,7 @@
 
 from .utils import *
 from .api import *
-from .sys import *
+from .loc import *
 from .gr import *
 
 import os
@@ -12,7 +12,7 @@ import sys
 
 class Grader:
 
-    __exitMessage = '\nLeaving grader and returning to main manager...\n'
+    __exitMessage = '\nLeaving grader and returning to GitRoom Manager...'
 
     def __init__(self, lgo):
         self.lgo = lgo

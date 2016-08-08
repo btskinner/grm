@@ -1,6 +1,8 @@
 # utils.py
 # -*- coding: utf-8 -*-
 
+import sys
+
 def printOpts(optlist):
     for l in optlist:
         print('(', optlist.index(l) + 1, ')', l)
@@ -41,3 +43,6 @@ def pickOpt(prompt, optlist):
 
         return choice - 1
 
+def progExit():
+    print('\n\n{}{}{}\n\n'.format('-' * 28,' Exit GitRoom Manager ', '-' * 28))
+    sys.exit()

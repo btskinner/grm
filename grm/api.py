@@ -169,33 +169,24 @@ class RemoteGit:
 
     def setLogin(self, ghid = None, **kwargs):
         if not ghid:
-            mess = 'Please enter your GitHub id: '
-            return input(mess)
+            return input('Please enter your GitHub id: ').strip()
         else:
             return ghid
                           
-    def setToken(self, tokenfile = None, showtoken = False, **kwargs):
+    def setToken(self, tokenfile = None, **kwargs):
         if tokenfile is not None:
             tfp = os.path.expanduser(tokenfile) 
             with open(tfp) as f:
                 return tfp, f.read().strip()
-
-        mess = 'Input token from file or manually in console?'
-        opts = ['From file', 'Manually in console']
-        choice = pickOpt(mess, opts)
- 
-        if choice == 1:
-            mess = 'Please enter your token: '
-            tfp = None
-            if showtoken:
-                return tfp, input(mess)
+        while True:
+            tfp = input('Please enter path to token file: ').strip()
+            tfp = os.path.expanduser(tfp)
+            if os.path.isfile(tfp):
+                with open(tfp) as f:
+                    return tfp, f.read().strip()
             else:
-                return tfp, getpass.getpass(mess)
-        else:
-            mess = 'Please enter path to token file: '
-            tfp = os.path.expanduser(input(mess))
-            with open(tfp) as f:
-                return tfp, f.read().strip()
+                errorMessage('Not a proper file!')
+                continue
 
     def setAPICreds(self, **kwargs):
         admin = Admin()
@@ -219,13 +210,21 @@ class RemoteGit:
         df = pd.read_csv(rpath)
         return df, rpath
 
-    def buildRoster(self, roster = None, **kwargs):
+    def buildRoster(self, rosterfile = None, **kwargs):
+
         rost = Roster(**kwargs)
-        if not roster:
-            mess = 'Please enter path to roster CSV file: '
-            roster, rpath = self.readRosterCSV(input(mess))
+        if rosterfile:
+            roster, rpath = self.readRosterCSV(rosterfile)
         else:
-            roster, rpath = self.readRosterCSV(roster)
+            while True:
+                mess = 'Please enter path to roster CSV file: '
+                rosterfile = os.path.expanduser(input(mess).strip())
+                if os.path.isfile(rosterfile):
+                    roster, rpath = self.readRosterCSV(rosterfile)
+                    break
+                else:
+                    errorMessage('Not a proper file!')
+                    continue         
 
         rost.path = rpath
 

@@ -5,16 +5,12 @@ version = '0.1.0'
 
 from .gr import *
 from .api import *
-from .sys import *
+from .loc import *
 from .img import *
 from .grade import *
 from .utils import *
 
 def main():
-
-    def __progExit():
-        print(closeout)
-        sys.exit()
 
     def __menu():
 
@@ -90,4 +86,4 @@ def main():
     print(startup.format(version))
     gr = GR()
     __menu()
-    __progExit()
+    progExit()

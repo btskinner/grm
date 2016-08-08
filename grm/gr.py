@@ -3,7 +3,7 @@
 
 from .utils import *
 from .api import *
-from .sys import *
+from .loc import *
 
 import json
 import os
@@ -17,6 +17,15 @@ class GR:
     def __init__(self, rgo = None, lgo = None):
         self.rgo = rgo
         self.lgo = lgo
+
+    def __str__(self):
+        text = '\nGitHub ID: {}\n'.format(self.rgo.admin.ghid)
+        text += 'GitHub token file: {}\n'.format(self.rgo.admin.token_file)
+        text += 'Organization name: {}\n'.format(self.rgo.org.name)
+        text += 'Roster file: {}\n'.format(self.rgo.roster.path)
+        text += 'Local master repo.: {}\n'.format(self.lgo.master_repo)
+        text += 'Local student repo. directory: {}\n'.format(self.lgo.student_repo_dir)
+        return text
     
     def _storeGitRoomInfo(self):
         
@@ -50,11 +59,8 @@ class GR:
         self.rgo = RemoteGit()
         self.rgo.setAPICreds(ghid = github_login, tokenfile = token_file)
         self.rgo.setOrg(name = orgname)
-        self.rgo.buildRoster(roster = roster_file)
-        self.rgo.getMembers()
-        self.rgo.getTeams()
-        self.rgo.getRepos()
-
+        self.rgo.buildRoster(rosterfile = roster_file)
+        
         # local git inits
         self.lgo = LocalGit()
         self.lgo.set_master_repo(master_repo = master_repo)
@@ -63,11 +69,32 @@ class GR:
         # option to store inits if any were missing
         if (not github_login or not token_file or not orgname
             or not roster_file or not master_repo or not student_repo_dir):
-            prompt = 'Do you want to store GitRoom information in JSON file?'
+            print('*' * 50)
+            print('\nThis is what you have entered:\n')
+            print(self)
+            print('*' * 50)
+            prompt = 'Is this correct?'
             choice = pickOpt(prompt, ['Yes','No'])
             if choice == 0:
-                self._storeGitRoomInfo()
-          
+                prompt = 'Do you want to store GitRoom information in JSON file?'
+                choice = pickOpt(prompt, ['Yes','No'])
+                if choice == 0:
+                    self._storeGitRoomInfo()
+
+                self.rgo.getMembers()
+                self.rgo.getTeams()
+                self.rgo.getRepos()
+
+            else:
+                prompt = 'Would you like to try again?'
+                choice = pickOpt(prompt, ['Yes','No'])
+                if choice == 0:
+                    self._initGitRoom(github_login = None, token_file = None,
+                                      orgname = None, roster_file = None,
+                                      master_repo = None, student_repo_dir = None)
+                else:
+                    progExit()
+                    
     def _readGitRoomInfo(self, init_file_path):
         
         with open(init_file_path, 'r') as f:
@@ -94,31 +121,29 @@ class GR:
         if self.rgo and self.lgo:
             return
         else:
-            prompt = 'How would you like to enter GitRoom information?'
-            opts = ['Manually', 'From JSON file']
-            choice = pickOpt(prompt, opts)
-            if choice == 0:
-                self._initGitRoom()
-            else:
-                prompt = 'Please give path to GitRoom JSON file: '
-                grjson = input(prompt).strip()
-                try:
-                    grjson = os.path.expanduser(grjson)
-                except AttributeError:
-                    errorMessage('Not a proper path!')
-                    self.getGitRoomObjs()
-
-                if not os.path.isfile(grjson):
-                    errorMessage('Not a file!')
-                    self.getGitRoomObjs()
-                
-                self._readGitRoomInfo(grjson)
+            while True:
+                prompt = 'How would you like to enter GitRoom information?'
+                opts = ['Manually', 'From JSON file']
+                choice = pickOpt(prompt, opts)
+                if choice == 0:
+                    self._initGitRoom()
+                else:
+                    prompt = 'Please give path to GitRoom JSON file: '
+                    grjson = os.path.expanduser(input(prompt).strip())
+                    if os.path.isfile(grjson):
+                        self._readGitRoomInfo(grjson)
+                        break
+                    else:
+                        errorMessage('Not a file!')
+                        continue
 
     # ----------------------------------
     # GitRoom main menu choices
     # ----------------------------------
 
     def buildGR(self, from_scratch = False):
+
+        __rb = 'https://github.com/'
 
         to_add = []
 
@@ -164,13 +189,15 @@ class GR:
             # 3
             resp = self.rgo.createTeam(team_name = rn)
             team = Team(team_id = resp['id'], name = resp['name'])
-            self.rgo.org.teams[team.name] = team
+            if team.name:
+                self.rgo.org.teams[team.name] = team
             # 4
             self.rgo.addMemberToTeam(team_name = rn, member = name)
             mem = Member(ghid = gh)
             members = {}
             members[gh] = mem
-            self.rgo.org.teams[team.name].members = members
+            if team.name:
+                self.rgo.org.teams[team.name].members = members
             # 5
             resp = self.rgo.addRepoToTeam(team_name = rn, repo_name = rn)
             # 6

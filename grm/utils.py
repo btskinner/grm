@@ -5,10 +5,10 @@ def printOpts(optlist):
     for l in optlist:
         print('(', optlist.index(l) + 1, ')', l)
 
-def promptMessage(text):
-    print('-' * len(text))
+def promptMessage(text, char = '-'):
+    print(char * len(text))
     print(text)
-    print('-' * len(text), end = '\n\n')
+    print(char * len(text), end = '\n\n')
 
 def errorMessage(text):
     print('ERROR: ', end = '')

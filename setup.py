@@ -19,8 +19,8 @@ setup(name='grm',
       license='MIT',
       packages=['grm'],
       install_requires=[
-          'gitpython',
           'pandas',
           'requests',
       ],
+      scripts=['bin/gitroom'],
       zip_safe=False)

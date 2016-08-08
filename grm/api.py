@@ -158,23 +158,23 @@ class RemoteGit:
         self.roster = None
 
     def __str__(self):
-        text = '\nAdmin:\n {0}\n'.format(self.admin)
-        text += '\nOrganization:\n {0}\n'.format(self.org)
-        text += '\nRoster:\n {0}\n'.format(self.roster)
+        text = '\nAdmin:\n {}\n'.format(self.admin)
+        text += '\nOrganization:\n {}\n'.format(self.org)
+        text += '\nRoster:\n {}\n'.format(self.roster)
         return text
 
     # ------------------------
     # Admin functions
     # ------------------------
 
-    def set_login(self, ghid = None, **kwargs):
+    def setLogin(self, ghid = None, **kwargs):
         if not ghid:
             mess = 'Please enter your GitHub id: '
             return input(mess)
         else:
             return ghid
                           
-    def set_token(self, tokenfile = None, showtoken = False, **kwargs):
+    def setToken(self, tokenfile = None, showtoken = False, **kwargs):
         if tokenfile is not None:
             tfp = os.path.expanduser(tokenfile) 
             with open(tfp) as f:
@@ -197,31 +197,39 @@ class RemoteGit:
             with open(tfp) as f:
                 return tfp, f.read().strip()
 
-    def set_api_creds(self, **kwargs):
+    def setAPICreds(self, **kwargs):
         admin = Admin()
-        admin.ghid = self.set_login(**kwargs)
-        admin.token_file, admin._Admin__token = self.set_token(**kwargs)
+        admin.ghid = self.setLogin(**kwargs)
+        admin.token_file, admin._Admin__token = self.setToken(**kwargs)
         self.admin = admin
+
+    def setOrg(self, **kwargs):
+        org = Org(**kwargs)
+        if not org.name:
+            mess = 'Please enter your organization name: '
+            org.name = input(mess)
+        self.org = org
 
     # ------------------------
     # Roster functions
     # ------------------------
 
-    def read_roster_csv(self, rosterpath):
+    def readRosterCSV(self, rosterpath):
         rpath = os.path.expanduser(rosterpath)
         df = pd.read_csv(rpath)
         return df, rpath
 
-    def build_roster(self, roster = None, **kwargs):
+    def buildRoster(self, roster = None, **kwargs):
         rost = Roster(**kwargs)
         if not roster:
             mess = 'Please enter path to roster CSV file: '
-            roster, rpath = self.read_roster_csv(input(mess))
+            roster, rpath = self.readRosterCSV(input(mess))
         else:
-            roster, rpath = self.read_roster_csv(roster)
+            roster, rpath = self.readRosterCSV(roster)
 
         rost.path = rpath
 
+        # allow for different column names in roster file
         icols = list(roster.columns.values)
         ocols = {'first_name': 'first name',
                  'last_name': 'last name',
@@ -244,6 +252,7 @@ class RemoteGit:
             rost.students[key] = student
         self.roster = rost
 
+        # option to rename roster names to match GitRoom requirements
         if len(miss) > 0:
             p = 'Do you want rename you roster file columns with GitRoom names?'
             choice = pickOpt(p, ['Yes', 'No'])
@@ -251,38 +260,44 @@ class RemoteGit:
                 old = [icols[corr['last_name']],
                        icols[corr['first_name']],
                        icols[corr['ghid']]]
-                roster.rename(columns = {old[0] : 'last_name',
-                                         old[1] : 'first_name',
-                                         old[2] : 'ghid'},
+                roster.rename(columns = {old[0]:'last_name',
+                                         old[1]:'first_name',
+                                         old[2]:'ghid'},
                               inplace = True)
                 roster.to_csv(rpath, index = False)
-        
 
     # ------------------------
-    # Org functions
+    # Requests API
     # ------------------------
 
-    def set_org(self, **kwargs):
-        org = Org(**kwargs)
-        if not org.name:
-            mess = 'Please enter your organization name: '
-            org.name = input(mess)
-        self.org = org
-
-    def get_info(self, url, params = None):
+    def getGR(self, url, **kwargs):
         auth = (self.admin.ghid, self.admin._Admin__token)
-        resp = requests.get(url, auth = auth, params = params)
+        resp = requests.get(url, auth = auth, **kwargs)
         return resp.json()
 
-    def get_members(self):
+    def postGR(self, url, **kwargs):
+        auth = (self.admin.ghid, self.admin._Admin__token)
+        resp = requests.post(url, auth = auth, **kwargs)
+        return resp
+
+    def putGR(self, url, **kwargs):
+        auth = (self.admin.ghid, self.admin._Admin__token)
+        resp = requests.put(url, auth = auth, **kwargs)
+        return resp 
+        
+    # ------------------------
+    # Org functions: get
+    # ------------------------
+
+    def getMembers(self):
         url = gh_api + 'orgs/' + self.org.name + '/members'
-        resp = self.get_info(url, params = {'role':'admin'})
+        resp = self.getGR(url, params = {'role':'admin'})
         ad_members = {}
         for r in resp:
             ghid = r['login']
             member = Member(ghid = ghid, role = 'admin')
             ad_members[ghid] = member
-        resp = self.get_info(url, params = {'role':'member'})
+        resp = self.getGR(url, params = {'role':'member'})
         members = {}
         for r in resp:
             ghid = r['login']
@@ -291,14 +306,14 @@ class RemoteGit:
         members.update(ad_members)
         self.org.members = members
 
-    def get_teams(self):
+    def getTeams(self):
         url = gh_api + 'orgs/' + self.org.name + '/teams'
-        resp = self.get_info(url)
+        resp = self.getGR(url)
         teams = {}
         for r in resp:
             team = Team(team_id = r['id'], name = r['name'])
             url = gh_api + 'teams/' + str(team.team_id) + '/members'
-            resp = self.get_info(url)
+            resp = self.getGR(url)
             members = {}
             for r in resp:
                 ghid = r['login']
@@ -306,7 +321,7 @@ class RemoteGit:
                 members[ghid] = member
             team.members = members
             url = gh_api + 'teams/' + str(team.team_id) + '/repos'
-            resp = self.get_info(url)
+            resp = self.getGR(url)
             repos = {}
             for r in resp:
                 repo = Repository(name = r['name'], repo_id = r['id'])
@@ -315,13 +330,69 @@ class RemoteGit:
             teams[team.name] = team
         self.org.teams = teams
             
-    def get_repos(self):
+    def getRepos(self):
         url = gh_api + 'orgs/' + self.org.name + '/repos'
-        resp = self.get_info(url)
+        resp = self.getGR(url)
         repos = {}
         for r in resp:
             repo = Repository(name = r['name'], repo_id = r['id'])
             repos[r['name']] = repo
         self.org.repos = repos
 
+    # ------------------------
+    # Org functions: post/put
+    # ------------------------
+
+    def createRemoteRepo(self, repo_name):
+        url = gh_api + 'orgs/' + self.org.name + '/repos'
+        json = {'name': repo_name, 'private':'true'}
+        resp = self.postGR(url, json = json)
+        if round(resp.status_code, -2) == 200:
+            print('Successfully created remote {}'.format(repo_name))
+
+    def addMember(self, member, role = 'member'):
+        mid = str(self.roster.students[member].ghid)
+        url = gh_api + 'orgs/' + self.org.name + '/memberships/' + mid
+        params = {'role': role}
+        resp = self.putGR(url, params = params)
+        if round(resp.status_code, -2) == 200:
+            print('Successfully added {} to {}.'.format(member,self.org.name))
+
+    def addAdmin(self, github_id):
+        url = gh_api + 'orgs/' + self.org.name + '/memberships/' + github_id
+        params = {'role': 'admin'}
+        resp = self.putGR(url, params = params)
+        if round(resp.status_code, -2) == 200:
+            print('Successfully added {} to {} as admin.'.format(github_id,
+                                                                 self.org.name))
+                                
+    def createTeam(self, team_name, permission = 'push'):
+        url = gh_api + 'orgs/' + self.org.name + '/teams'
+        json = {'name': team_name, 'permission': permission}
+        resp = self.postGR(url, json = json)
+        if round(resp.status_code, -2) == 200:
+            print('Successfully created team: {}'.format(team_name))
+            return resp.json()
+
+    def addMemberToTeam(self, team_name, member, role = 'member'):
+        mid = str(self.roster.students[member].ghid)
+        tid = str(self.org.teams[team_name].team_id)
+        url = gh_api + 'teams/' + tid + '/memberships/' + mid
+        params = {'role': role}
+        resp = self.putGR(url, params = params)
+        if round(resp.status_code, -2) == 200:
+            state = resp.json()['state']
+            print('{}\'s membership on team {} is now {}.'.format(member,
+                                                                  team_name,
+                                                                  state))
+     
+    def addRepoToTeam(self, team_name, repo_name):
+        tid = str(self.org.teams[team_name].team_id)
+        url = gh_api + 'teams/' + tid + '/repos/' + self.org.name
+        url += '/' + repo_name
+        params = {'permission': 'push'}
+        resp = self.putGR(url, params = params)
+        if round(resp.status_code, -2) == 200:
+            print('{} now has access to repo {}'.format(team_name, repo_name))
+        
         

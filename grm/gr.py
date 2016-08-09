@@ -296,10 +296,9 @@ class GR:
         choice = pickOpt(prompt, opts)
             
         while True:
-            prompt = 'Please enter commit message: '
-            mess = input(prompt).strip()
-            print('\n{}\n'.format(mess))
-            prompt = 'Is this okay or do you want to try again?'
+            comment = input('Please enter commit message: ').strip()
+            prompt = 'Is this okay or do you want to try again?\n\n'
+            prompt += 'COMMENT: {}'.format(comment)
             select = pickOpt(prompt, ['Good', 'Try again'])
             if select == 0:
                 break

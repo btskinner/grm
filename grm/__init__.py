@@ -72,6 +72,10 @@ def main():
         else:
             grader = Grader(gr.lgo)
             grader.main()
+            prompt = 'Do you want to push comments to student remotes?'
+            choice = pickOpt(prompt, ['Yes','No'])
+            if choice == 0:
+                gr.pushGR()
 
         prompt = 'Do you have other tasks or wish to exit GitRoom Manager?'
         choice = pickOpt(prompt, ['I have another task', 'Exit'])

@@ -37,9 +37,9 @@ class Org:
 
     def __init__(self, name = None, repos = None, members = None, teams = None):
         self.name = name
-        self.repos = repos
-        self.members = members
-        self.teams = teams
+        self.repos = repos if isinstance(repos, dict) else {}
+        self.members = members if isinstance(members, dict) else {}
+        self.teams = teams if isinstance(teams, dict) else {}
 
     def __str__(self):
         text = '\nOrg Name: {0}\n'.format(self.name)
@@ -99,8 +99,8 @@ class Team:
     def __init__(self, team_id = None, name = None, repos = None, members = None):
         self.team_id = team_id
         self.name = name
-        self.repos = repos
-        self.members = members
+        self.repos = repos if isinstance(repos, dict) else {}
+        self.members = members if isinstance(members, dict) else {}
 
     def __str__(self):
         text = '\nTeam Name: {}; Team ID: {}\n'.format(self.name, self.team_id)

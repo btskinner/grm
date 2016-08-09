@@ -52,5 +52,4 @@ GitRoom Manager from terminal using:
 
    $ gitroom
 
-   
 

@@ -8,15 +8,12 @@ def readme():
     with open('README.rst') as f:
         return f.read()
 
-version = {}
-with open(convert_path('grm/__version__.py')) as f:
-    exec(f.read(), version)
+info = {}
+with open(convert_path('grm/__info__.py')) as f:
+    exec(f.read(), info)
 
-__gh = 'https://github.com/btskinner/'
-__nm = 'grm'
-
-setup(name='{}'.format(__nm),
-      version=version['__version__'],
+setup(name=info['__nm'],
+      version=info['__version__'],
       description='GitHub classroom manager',
       long_description=readme(),
       classifiers=[
@@ -25,10 +22,10 @@ setup(name='{}'.format(__nm),
           'Programming Language :: Python :: 3.5',
       ],
       keywords='github organization classroom manager',
-      url='https://github.com/btskinner/grm',
-      download_url='{}{}/archive/v{}.tar.gz'.format(__gh, __nm, version['__version__']),
-      author='Benjamin Skinner',
-      author_email='b.skinner@vanderbilt.edu',
+      url=info['__rp'],
+      download_url=info['__dl'],
+      author=info['__au'],
+      author_email=info['__em'],
       license='MIT',
       packages=['grm'],
       install_requires=[

@@ -17,7 +17,7 @@ startup = '''
 
 
 Version: {0}
-Author: Benjamin Skinner
-URL: https://github.com/btskinner/grm
+Author: {1}
+URL: {2}
 LICENSE: MIT
 '''

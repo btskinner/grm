@@ -1,14 +1,13 @@
-.. code::
+GitRoom Manager
+===
 
-    ______     __     ______   ______     ______     ______     __    __              
-   /\  ___\   /\ \   /\__  _\ /\  == \   /\  __ \   /\  __ \   /\ "-./  \             
-   \ \ \__ \  \ \ \  \/_/\ \/ \ \  __<   \ \ \/\ \  \ \ \/\ \  \ \ \-./\ \            
-    \ \_____\  \ \_\    \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\ \ \_\           
-     \/_____/   \/_/     \/_/   \/_/ /_/   \/_____/   \/_____/   \/_/  \/_/           
-                                                                                   
-    __    __     ______     __   __     ______     ______     ______     ______       
-   /\ "-./  \   /\  __ \   /\ "-.\ \   /\  __ \   /\  ___\   /\  ___\   /\  == \      
-   \ \ \-./\ \  \ \  __ \  \ \ \-.  \  \ \  __ \  \ \ \__ \  \ \  __\   \ \  __<      
-    \ \_\ \ \_\  \ \_\ \_\  \ \_\\"\_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\ \_\    
-     \/_/  \/_/   \/_/\/_/   \/_/ \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/ /_/
+GitRoom Manager allows instructors to more easily manage a
+GitHub-based virtual classroom. From within the program, the user can:
 
+- Initialize student repositories, locally and remotely, from a CSV
+  roster and a local master repository
+- Add students to an existing course
+- Add administrators to the course (other instructors)
+- Update student repositories with new course content
+- Pull from/push to student repositories
+- Grade assignments

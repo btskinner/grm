@@ -29,16 +29,16 @@ Requirements
 Installation
 ------------
 
-To install the `grm` module, clone the repository to your local
-machine and `cd` into the top-level directory. From the terminal, type:
+To install the ``grm`` module, clone the repository to your local
+machine and ``cd`` into the top-level directory. From the terminal, type:
 
 .. code::
 
    python setup.py install
 
 
-*NOTE:* You may need to use `python3` or `python3.x` in place of
-`python` in order to utilize a Python 3.x installation.
+*NOTE:* You may need to use ``python3`` or ``python3.x`` in place of
+``python`` in order to utilize a Python 3.x installation.
 
 You may also install with pip:
 
@@ -69,7 +69,7 @@ commands above. The script searches your environment for your Python
 3.x interpreter. If it cannot find it, the script may revert to your
 system Python interpreter---which is often 2.x---and may fail. If you
 have trouble with the command line script, first make sure that your
-Python 3.x interpreter is in your system path and callable by `python3`.
+Python 3.x interpreter is in your system path and callable by ``python3``.
 
 
 How it works
@@ -119,7 +119,7 @@ A setup might look this:
 
 	
 When adding files (*e.g.*, new lessons/assignments), GitRoom Manager
-uses the `rsync` utility to copy files from the course master to each
+uses the ``rsync`` utility to copy files from the course master to each
 student repository. **Any existing files that have been changed by the
 student but not the instructor will be overwritten.** This is an
 important feature in that it allows the instructor to make changes to
@@ -131,15 +131,15 @@ A couple of notes about the syncing:
 
 1. Hidden files and directories are not copied to the student
    repositories. This prevents clutter as well as keeps the MasterRepo
-   `.git` directory (if it has one) from overwritting the student
-   `.git` directories.
+   ``.git`` directory (if it has one) from overwritting the student
+   ``.git`` directories.
 2. Subdirectories beginning with an underscore are not copied. This is
    allows the instructor to have hidden working directories. In fact,
    the student repositories can be copied into the MasterRepo as long
    as they live in a directory starting with and underscore.
 
-Here's an updated example. `_gitadmin`, `_working`, and
-`_student_repositories` will not be copied into the `student_<name>`
+Here's an updated example. ``_gitadmin``, ``_working``, and
+``_student_repositories`` will not be copied into the ``student_<name>``
 local repositories:
 
 .. code::
@@ -174,7 +174,7 @@ local repositories:
 
 
 *NOTE:* If you structure your MasterRepo this way and host it on
-GitHub, be sure to add `/_*` to your `.gitignore` file so that your
+GitHub, be sure to add ``/_*`` to your ``.gitignore`` file so that your
 and your students' sensitive data aren't pushed to the remote.
 	
 Example Roster

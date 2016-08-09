@@ -17,17 +17,39 @@ Requirements
 
 - Python 3.x
 - Ownership of a `GitHub Classroom`_
-  
+.. _GitHub Classroom: https://classroom.github.com/  
 
 Installation
 ------------
 
-To install, clone the repository to your local machine and `cd` into
-the top-level directory. From the terminal, type
+To install the `grm` module, clone the repository to your local
+machine and `cd` into the top-level directory. From the terminal, type:
 
 .. code::
 
-   python3 setup.py install
+   python setup.py install
 
 
-.. _GitHub Classroom: https://classroom.github.com/ 
+*NOTE:* You may need to use `python3` or `python3.x` in place of
+`python` in order to utilize a Python 3 installation.
+
+
+Usage
+-----
+
+You can call GitRoom Manager from within an interactive Python session by
+calling:
+
+.. code:: python
+
+   import grm
+   grm.main()
+
+the installation also adds an executable to your path. You can call
+GitRoom Manager from terminal using:
+
+.. code::
+
+   gitroom
+
+

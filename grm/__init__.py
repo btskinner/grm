@@ -1,14 +1,13 @@
 # __init__.py
 # -*- coding: utf-8 -*-
 
-version = '0.1.0'
-
 from .gr import *
 from .api import *
 from .loc import *
 from .img import *
 from .grade import *
 from .utils import *
+from .__version__ import __version__
 
 def main():
 
@@ -87,7 +86,7 @@ def main():
     # Run
     # ----------------------------------
 
-    print(startup.format(version))
+    print(startup.format(__version__))
     gr = GR()
     __menu()
     progExit()

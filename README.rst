@@ -50,6 +50,6 @@ GitRoom Manager from terminal using:
 
 .. code::
 
-   gitroom
+   $ gitroom
 
 

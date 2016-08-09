@@ -3,10 +3,10 @@
 
 from setuptools import setup
 from distutils.util import convert_path
-import pypandoc
 
 def readme():
-    return pypandoc.convert('README.md', 'rst')
+    with open('README.rst') as f:
+        return f.read()
 
 info = {}
 with open(convert_path('grm/__info__.py')) as f:

@@ -31,7 +31,7 @@ Installation
 To install the `grm` module, clone the repository to your local machine
 and `cd` into the top-level directory. From the terminal, type:
 
-``` {.sourceCode .}
+```
 python setup.py install
 ```
 
@@ -40,7 +40,7 @@ python setup.py install
 
 You may also install with pip:
 
-``` {.sourceCode .}
+```bash
 pip install grm
 ```
 
@@ -50,7 +50,7 @@ Usage
 You can call GitRoom Manager from within an interactive Python session
 by calling:
 
-``` {.sourceCode .python}
+```python
 import grm
 grm.main()
 ```
@@ -58,7 +58,7 @@ grm.main()
 The installation also adds an executable script to your path. You can
 call GitRoom Manager from terminal using:
 
-``` {.sourceCode .}
+```bash
 $ gitroom
 ```
 
@@ -80,7 +80,7 @@ from within those repositories.
 
 A setup might look this:
 
-``` {.sourceCode .}
+```
 ./CourseDir
  +-./MasterRepo
  |      +-./Lessons
@@ -112,6 +112,7 @@ A setup might look this:
  |         |      +-assignment_1.md
  |         +-./assignment_2
  |            +-assignment_2.md
+ 
 ```
 
 When adding files (*e.g.*, new lessons/assignments), GitRoom Manager
@@ -138,7 +139,7 @@ Here's an updated example. `_gitadmin`, `_working`, and
 `_student_repositories` will not be copied into the `student_<name>`
 local repositories:
 
-``` {.sourceCode .}
+```
 +-./MasterRepo
  +-./Lessons
  |      +-lesson_1.md
@@ -166,6 +167,7 @@ local repositories:
  |                |      +-assignment_1.md
  |                +-./assignment_2
  |                   +-assignment_2.md
+ 
 ```
 
 *NOTE:* If you structure your MasterRepo this way and host it on GitHub,

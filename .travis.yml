@@ -1,8 +1,8 @@
 language: python
 python:
-  - '3.5'
-  - '3.4'
-  - '3.3'
+  - "3.5"
+  - "3.4"
+  - "3.3"
 
 install:
   - pip install -r requirements.txt
@@ -19,24 +19,24 @@ notifications:
     on_failure: change
 
 deploy:
-  # test pypi
-  provider: pypi
-  distributions: sdist
-  server: https://testpypi.python.org/pypi
-  user: btskinner
-  password:
-  secure: "BB8RSn6OSMHPqzeTFzMZmoAtVFzvaEbYDTw/t+er6j2UDZNMdAFljFCrO5bwpRKRBqQG646v+Y7SO2ZVGKPhP+xUl2zwFCl3wT95IPtCrDBhPKjuOF9p/xJ96hnzjjQ1r4ZA6VMhXlgSf1CMLwlBgebFIaHGruSsTkEtCjkYNTxncc97+fAmX7g0p6F0zytL7yyz8ULPa5EEgyQcmU3F7xC2RRbMk56k6cqESjz5bcEZpqFIbTIjyG/J6dlSior2gX80mrEqY+PSh+0PbA5bYpoH2Fjs7CzsIQGiSQJ+ANBWyiYG0rdvORc1Nrm8O242UW4bupKUwoCdPSsActVjyH7VHf5+xootuZhF9gHi+IKITSjf1Q0w3JODnFSUq73GBhHnCpY+7IvVqidWK+8dLNfYbbJo96gb4DtikzKFKSfufT0Ffi7RD3cFVgnmTd7fCvbJ1ybIbMRjEPSuEV0NjCSgU+6c1WdUkwILFbV2sYPcEYR5raF0jxsh8jCeDSv2v2ZOJw4esGbfHsSR6zTfAuXWrzIQ2oUTeCrCLKxF+TqqPVock0XvegLItEDgfBNCFHkjuc/m5YRoDkPvckFC0XIvVcU+zQFNshwtZ1Ny5cwcvhObsR/IrtyV3EGILGX3+u+B3keE3I362+GVYOZebLST6q9mLHn1ZAqrwYovL8k="
-  on:
-    branch: master
-    tags: false
-    condition: $TRAVIS_PYTHON_VERSION = "3.5"
-  # production pypi
-  provider: pypi
-  distributions: sdist
-  user: btskinner
-  password:
-  secure: "C0CyYTzOnIoxLWyr5GbMaA1Tfc7nEb8UVDWz6UB3qRONKNYRlF40Sr0ICrNFDRCX0SKQe0Scfo22wrs1mK1Wnh1hIRr4oDmgVDUfVR43qEMeZGVSE8Mn1beToV/yaMsIRAs+FdIcBYrFvVNU6t/6qkB/+v3GGnchyYvU8n+q8874XTIySntIKQwzos3PgQt05uiTCCd0C0F0tilzZpzntb3lX7zWnXvK+tIcC8ya3hKjdM0DV7tZMJj0XqsNsub8ONwEe4EV55SWkFnq6hMMiQEA/LRCjN2tzY9uQHDfR2AOwHxv/gr6tQ0Cxo+PP4NztlJAtDa0Z0xDORRXFerfIq/3n6konQEg4n9KasisPCN0Br8K6PV4JAuQ9cOtRW6CStobjvtl3h+gmfdr08Q27+DNe/mJxjzWu7Yg54zxJa1feCzrQGBimRIUSaGUEYHkeUZcM5oO69rXydE42xtoys3EPJMlw50AXndFjAwyTmNN2ri5nbEo8IpL0nTKY1X939x/5rRIItdWUsGeqf9YKMJsKVJ4KMkp/Sz++iSIyvZTjPcJtl4h8MVED0i5dbTnnf0pL+YcJQRdoaY2YzFMnMeToh2FYhA0u/15t7iJk5ofLN+AiYUkPU19A4pmr1XY2/4EGPjE3qJlsAq0OEfmq7Dz9jA5aE3SElAwNeXrrew="
-  on:
-    branch: master
-    tags: true
-    condition: $TRAVIS_PYTHON_VERSION = "3.5"
+    # test pypi
+  - provider: pypi
+    distributions: sdist
+    server: https://testpypi.python.org/pypi
+    user: btskinner
+    password:
+      secure: "BB8RSn6OSMHPqzeTFzMZmoAtVFzvaEbYDTw/t+er6j2UDZNMdAFljFCrO5bwpRKRBqQG646v+Y7SO2ZVGKPhP+xUl2zwFCl3wT95IPtCrDBhPKjuOF9p/xJ96hnzjjQ1r4ZA6VMhXlgSf1CMLwlBgebFIaHGruSsTkEtCjkYNTxncc97+fAmX7g0p6F0zytL7yyz8ULPa5EEgyQcmU3F7xC2RRbMk56k6cqESjz5bcEZpqFIbTIjyG/J6dlSior2gX80mrEqY+PSh+0PbA5bYpoH2Fjs7CzsIQGiSQJ+ANBWyiYG0rdvORc1Nrm8O242UW4bupKUwoCdPSsActVjyH7VHf5+xootuZhF9gHi+IKITSjf1Q0w3JODnFSUq73GBhHnCpY+7IvVqidWK+8dLNfYbbJo96gb4DtikzKFKSfufT0Ffi7RD3cFVgnmTd7fCvbJ1ybIbMRjEPSuEV0NjCSgU+6c1WdUkwILFbV2sYPcEYR5raF0jxsh8jCeDSv2v2ZOJw4esGbfHsSR6zTfAuXWrzIQ2oUTeCrCLKxF+TqqPVock0XvegLItEDgfBNCFHkjuc/m5YRoDkPvckFC0XIvVcU+zQFNshwtZ1Ny5cwcvhObsR/IrtyV3EGILGX3+u+B3keE3I362+GVYOZebLST6q9mLHn1ZAqrwYovL8k="
+    on:
+      branch: master
+      tags: false
+      condition: $TRAVIS_PYTHON_VERSION = "3.5"
+    # production pypi
+  - provider: pypi
+    distributions: sdist
+    user: btskinner
+    password:
+      secure: "C0CyYTzOnIoxLWyr5GbMaA1Tfc7nEb8UVDWz6UB3qRONKNYRlF40Sr0ICrNFDRCX0SKQe0Scfo22wrs1mK1Wnh1hIRr4oDmgVDUfVR43qEMeZGVSE8Mn1beToV/yaMsIRAs+FdIcBYrFvVNU6t/6qkB/+v3GGnchyYvU8n+q8874XTIySntIKQwzos3PgQt05uiTCCd0C0F0tilzZpzntb3lX7zWnXvK+tIcC8ya3hKjdM0DV7tZMJj0XqsNsub8ONwEe4EV55SWkFnq6hMMiQEA/LRCjN2tzY9uQHDfR2AOwHxv/gr6tQ0Cxo+PP4NztlJAtDa0Z0xDORRXFerfIq/3n6konQEg4n9KasisPCN0Br8K6PV4JAuQ9cOtRW6CStobjvtl3h+gmfdr08Q27+DNe/mJxjzWu7Yg54zxJa1feCzrQGBimRIUSaGUEYHkeUZcM5oO69rXydE42xtoys3EPJMlw50AXndFjAwyTmNN2ri5nbEo8IpL0nTKY1X939x/5rRIItdWUsGeqf9YKMJsKVJ4KMkp/Sz++iSIyvZTjPcJtl4h8MVED0i5dbTnnf0pL+YcJQRdoaY2YzFMnMeToh2FYhA0u/15t7iJk5ofLN+AiYUkPU19A4pmr1XY2/4EGPjE3qJlsAq0OEfmq7Dz9jA5aE3SElAwNeXrrew="
+    on:
+      branch: master
+      tags: true
+      condition: $TRAVIS_PYTHON_VERSION = "3.5"

@@ -19,7 +19,7 @@ virtual classroom. From within the program, the user can:
 Requirements
 ------------
 
--   Python &gt;= 3.4
+-   Python &gt;= 3.3
 -   Git &gt;= 2.0
 -   Ownership of a [GitHub Classroom](https://classroom.github.com/)
 -   [GitHub Personal

@@ -1,10 +1,7 @@
 GitRoom Manager
 ===============
 
-.. image:: https://travis-ci.org/btskinner/grm.svg?branch=master
-    :target: https://travis-ci.org/btskinner/grm
-.. image:: https://badge.fury.io/py/grm.svg
-    :target: https://badge.fury.io/py/grm
+|Build Status| |PyPI version|
 
 GitRoom Manager allows instructors to more easily manage a GitHub-based
 virtual classroom. From within the program, the user can:
@@ -21,7 +18,7 @@ virtual classroom. From within the program, the user can:
 Requirements
 ------------
 
--  Python >= 3.4
+-  Python >= 3.3
 -  Git >= 2.0
 -  Ownership of a `GitHub Classroom <https://classroom.github.com/>`__
 -  `GitHub Personal
@@ -37,7 +34,7 @@ To install the ``grm`` module, clone the repository to your local
 machine and ``cd`` into the top-level directory. From the terminal,
 type:
 
-.. code::
+::
 
     python setup.py install
 
@@ -46,7 +43,7 @@ type:
 
 You may also install with pip:
 
-.. code::
+.. code:: bash
 
     pip install grm
 
@@ -190,3 +187,8 @@ Example Roster
 +--------------+---------------+-------------+
 | Student      | Bob           | bstudent    |
 +--------------+---------------+-------------+
+
+.. |Build Status| image:: https://travis-ci.org/btskinner/grm.svg?branch=master
+   :target: https://travis-ci.org/btskinner/grm
+.. |PyPI version| image:: https://badge.fury.io/py/grm.svg
+   :target: https://badge.fury.io/py/grm

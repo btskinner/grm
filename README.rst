@@ -1,6 +1,11 @@
 GitRoom Manager
 ===============
 
+.. image:: https://travis-ci.org/btskinner/grm.svg?branch=master
+    :target: https://travis-ci.org/btskinner/grm
+.. image:: https://badge.fury.io/py/grm.svg
+    :target: https://badge.fury.io/py/grm
+
 GitRoom Manager allows instructors to more easily manage a GitHub-based
 virtual classroom. From within the program, the user can:
 

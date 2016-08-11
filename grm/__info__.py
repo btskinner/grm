@@ -1,4 +1,4 @@
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __gh = 'https://github.com/btskinner/'
 __nm = 'grm'
 __rp = '{}{}'.format(__gh, __nm)

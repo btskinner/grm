@@ -242,9 +242,9 @@ class GR:
         self.rgo.getRepos()
         while True:
             prompt = 'Please enter commit message: '
-            mess = input(prompt).strip()
-            print('\n{}\n'.format(mess))
-            prompt = 'Is this okay or do you want to try again?'
+            comment = input(prompt).strip()
+            prompt = 'Is this okay or do you want to try again?\n\n'
+            prompt += 'COMMENT: {}'.format(comment)
             choice = pickOpt(prompt, ['Good', 'Try again'])
             if choice == 0:
                 break
@@ -252,12 +252,12 @@ class GR:
         for k,v in self.rgo.org.repos.items():
             repo = k
             repo_path = os.path.join(self.lgo.student_repo_dir, repo)
-            if not os.path.isdir(repo):
+            if not os.path.isdir(repo_path):
                 continue
             self.lgo.gitPull(repo = repo_path)
             self.lgo.masterToStudent(student_repo = repo)
             self.lgo.gitAdd(repo = repo_path)
-            self.lgo.gitCommit(repo = repo_path, message = mess)
+            self.lgo.gitCommit(repo = repo_path, message = comment)
             self.lgo.gitPush(repo = repo_path)  
 
     def pullGR(self):
@@ -288,8 +288,8 @@ class GR:
         prompt = 'Please select the student repository you wish to push'
         opts = ['-- All student repositories --']
         for k,v in self.rgo.org.repos.items():
-            repo = os.path.join(self.lgo.student_repo_dir, k)
-            if not os.path.isdir(repo):
+            repo_path = os.path.join(self.lgo.student_repo_dir, k)
+            if not os.path.isdir(repo_path):
                 continue
             opts.append(k)
 

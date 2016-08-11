@@ -310,12 +310,12 @@ class GR:
                     continue
                 self.lgo.gitPull(repo = repo_path)
                 self.lgo.gitAdd(repo = repo_path)
-                self.lgo.gitCommit(repo = repo_path, message = mess)
+                self.lgo.gitCommit(repo = repo_path, message = comment)
                 self.lgo.gitPush(repo = repo_path)
         else:
             repo_path = os.path.join(self.lgo.student_repo_dir, opts[choice])
             self.lgo.gitPull(repo = repo)
             self.lgo.gitPull(repo = repo_path)
             self.lgo.gitAdd(repo = repo_path)
-            self.lgo.gitCommit(repo = repo_path, message = mess)
+            self.lgo.gitCommit(repo = repo_path, message = comment)
             self.lgo.gitPush(repo = repo_path)

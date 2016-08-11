@@ -43,11 +43,12 @@ class Grader:
     def _selectGrader(self):
         self.grader = input('Please give grader\'s name or initials: ').strip()
 
-    def _commentFile(self, comment_char = '#'):
+    def _commentFile(self):
         promptMessage('Add comments for end of file (hit return when finished)')
         com = textwrap.dedent(input('Comment:\n\n')).strip()
         com = textwrap.fill(com, width = 70)
         com = com.splitlines()
+        comment_char = input('Please enter comment character (enter for none): ')
         comment = []
         for line in com:
             comment.append('{} '.format(comment_char) + line)

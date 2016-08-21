@@ -2,7 +2,7 @@ title:            grm
 tagline:          'Python package'
 description:      'GitRoom Manager: A command line GitHub classroom manager'
 github:		  https://github.com/btskinner/grm
-version:	  0.1.4
+version:	  0.1.5
 url:		  http://btskinner.me
 baseurl: 	  "/grm"
 

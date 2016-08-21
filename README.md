@@ -43,7 +43,7 @@ and `cd` into the top-level directory. From the terminal, type:
 
 You may also install with pip:
 
-``` {.sourceCode .bash}
+```bash
 pip install grm
 ```
 
@@ -53,7 +53,7 @@ Usage
 You can call GitRoom Manager from within an interactive Python session
 by calling:
 
-``` {.sourceCode .python}
+```python
 import grm
 grm.main()
 ```
@@ -61,7 +61,7 @@ grm.main()
 The installation also adds an executable script to your path. You can
 call GitRoom Manager from terminal using:
 
-``` {.sourceCode .bash}
+```bash
 $ gitroom
 ```
 

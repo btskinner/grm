@@ -6,7 +6,7 @@ title: grm
 # About 
 
 GitRoom Manager allows instructors to more easily manage a GitHub-based
-virtual classroom. From within the program, the user can:
+virtual classroom from the command line. From within the program, the user can:
 
 -   Initialize student repositories, locally and remotely, from a CSV
     roster and a local master repository

@@ -88,9 +88,17 @@ class GR:
                 else:
                     progExit()
 
+        try:
+            self.rgo.getMembers()
+
+        except requests.exceptions.ConnectionError:
+            errorMessage('Not able to connect to remote.')
+            return 1
+
         self.rgo.getMembers()
         self.rgo.getTeams()
         self.rgo.getRepos()
+        return 0
                     
     def _readGitRoomInfo(self, init_file_path):
         
@@ -107,12 +115,13 @@ class GR:
                 except KeyError:
                     info[k] = None               
 
-            self._initGitRoom(github_login = info['github_login'],
-                              token_file = info['github_token_file'],
-                              orgname = info['organization_name'],
-                              roster_file = info['roster_file'],
-                              master_repo = info['master_repo'],
-                              student_repo_dir = info['student_repo_dir'])
+            connect_code = self._initGitRoom(github_login = info['github_login'],
+                                             token_file = info['github_token_file'],
+                                             orgname = info['organization_name'],
+                                             roster_file = info['roster_file'],
+                                             master_repo = info['master_repo'],
+                                             student_repo_dir = info['student_repo_dir'])
+            return connect_code
 
     def getGitRoomObjs(self):
         if self.rgo and self.lgo:
@@ -128,8 +137,8 @@ class GR:
                     prompt = 'Please give path to GitRoom JSON file: '
                     grjson = os.path.expanduser(input(prompt).strip())
                     if os.path.isfile(grjson):
-                        self._readGitRoomInfo(grjson)
-                        break
+                        connect_code = self._readGitRoomInfo(grjson)
+                        return connect_code
                     else:
                         errorMessage('Not a file!')
                         continue

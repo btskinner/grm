@@ -14,24 +14,34 @@ def main():
 
     def __menu():
 
+        # update GitRoom Objects if cycling through program
+        connect_code = gr.getGitRoomObjs()
+
+        # main prompt
         prompt = 'What would you like to do?'
-        opts = ['Initialize class',
-                'Add students to class',
-                'Add new administrator',
-                'Clone repositories',
-                'Update student remote repositories with local master',
-                'Pull down from remote student repositories',
-                'Push from local student repositories to remotes',
-                'Grade student assignments',
-                '<< Exit Program >>']
+
+        fullopts = ['Initialize class',
+                    'Add students to class',
+                    'Add new administrator',
+                    'Clone repositories',
+                    'Update student remote repositories with local master',
+                    'Pull down from remote student repositories',
+                    'Push from local student repositories to remotes',
+                    'Grade student assignments',
+                    '<< Exit Program >>']
+
+        shortopts = [fullopts[i] for i in [len(fullopts) - 2, len(fullopts) - 1]]
+
+        opts = shortopts if connect_code != 0 else fullopts
+                       
         choice = pickOpt(prompt, opts)
 
         # exit program
         if choice == len(opts) - 1:
             return
 
-        # update GitRoom Objects if cycling through program
-        gr.getGitRoomObjs()
+        if connect_code != 0:
+            choice += len(fullopts) - len(shortopts)
                              
         # (1) Initialize class
         if choice == 0:
@@ -72,10 +82,11 @@ def main():
         else:
             grader = Grader(gr.lgo)
             grader.main()
-            prompt = 'Do you want to push comments to student remotes?'
-            choice = pickOpt(prompt, ['Yes','No'])
-            if choice == 0:
-                gr.pushGR()
+            if connect_code == 0:
+                prompt = 'Do you want to push comments to student remotes?'
+                choice = pickOpt(prompt, ['Yes','No'])
+                if choice == 0:
+                    gr.pushGR()
 
         prompt = 'Do you have other tasks or wish to exit GitRoom Manager?'
         choice = pickOpt(prompt, ['I have another task', 'Exit'])

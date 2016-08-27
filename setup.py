@@ -14,12 +14,12 @@ with open(convert_path('grm/__info__.py')) as f:
 
 setup(name=info['__nm'],
       version=info['__version__'],
-      description='GitHub classroom manager',
+      description='GitRoom Manager: A command line GitHub classroom manager',
       long_description=readme(),
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3',
       ],
       keywords='github organization classroom manager',
       url=info['__rp'],

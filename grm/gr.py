@@ -30,12 +30,9 @@ class GR:
     def _storeGitRoomInfo(self):
         
         while True:
-            odir = input('Please give directory for saving: ').strip()
-            
-            try:
-                odir = os.path.expanduser(odir)
-                
-            except AttributeError:
+            prompt = 'Please give directory for saving: '
+            odir = os.path.expanduser(input(prompt).strip())
+            if not os.path.isdir(odir):
                 errorMessage('Please input a directory path.')
                 continue
             
@@ -81,10 +78,6 @@ class GR:
                 if choice == 0:
                     self._storeGitRoomInfo()
 
-                self.rgo.getMembers()
-                self.rgo.getTeams()
-                self.rgo.getRepos()
-
             else:
                 prompt = 'Would you like to try again?'
                 choice = pickOpt(prompt, ['Yes','No'])
@@ -94,6 +87,10 @@ class GR:
                                       master_repo = None, student_repo_dir = None)
                 else:
                     progExit()
+
+        self.rgo.getMembers()
+        self.rgo.getTeams()
+        self.rgo.getRepos()
                     
     def _readGitRoomInfo(self, init_file_path):
         
@@ -147,10 +144,7 @@ class GR:
 
         to_add = []
 
-        if from_scratch:
-            for k,v in self.rgo.roster.students.items():
-                to_add.append(k)
-        else:
+        if not from_scratch:
             # compare roster to remote
             current = []
             for k,v in self.rgo.org.members.items():
@@ -159,6 +153,13 @@ class GR:
             for k,v in self.rgo.roster.students.items():
                 if v.ghid not in current:
                     to_add.append(k)
+        else:
+            for k,v in self.rgo.roster.students.items():
+                to_add.append(k)
+
+        if len(to_add) == 0:
+            print('All local students on remote')
+            return
  
         m = 'Students to be added to {}'.format(self.rgo.org.name)
         promptMessage(m, char = '')
@@ -166,6 +167,13 @@ class GR:
             fn = self.rgo.roster.students[name].first_name
             ln = self.rgo.roster.students[name].last_name
             print('{} {}'.format(fn, ln))
+
+        prompt = 'Should repos be private?'
+        choice = pickOpt(prompt, ['Yes','No'])
+        if choice == 0:
+            priv_bool = True
+        else:
+            priv_bool = False
 
         # STEPS
         # 1. [Remote] Add student as GitRoom member
@@ -182,28 +190,65 @@ class GR:
             gh = self.rgo.roster.students[name].ghid
             rn = 'student_{}'.format(ln.lower())
             rp = os.path.join(self.lgo.student_repo_dir, rn)
+
             # 1
-            self.rgo.addMember(member = name)
+            resp = self.rgo.addMember(member = name)
+
+            if round(resp.status_code, -2) == 400:
+                print(resp.json()['message'])
+            elif resp.json()['state'] == 'active':
+                print('{} is already an active member.'.format(name))
+            elif resp.json()['state'] == 'pending':
+                print('{} has a pending membership.'.format(name))
+
             # 2
-            self.rgo.createRemoteRepo(repo_name = rn)
+            resp = self.rgo.createRemoteRepo(repo_name = rn, private = priv_bool)
+
+            if resp.status_code == 422:
+                text = '\nEither:\n\n'
+                text += '(1) Remote already exists\n'
+                text += '(2) Your organization plan doesn\'t allow for private repos \n'
+                text += '    and you must change the setting to public \n'
+                text += '    or upgrade your plan through GitHub.'
+                errorMessage(text)        
+            elif round(resp.status_code, -2) == 200:
+                print('Successfully created remote {}'.format(rn))
+
             # 3
             resp = self.rgo.createTeam(team_name = rn)
-            team = Team(team_id = resp['id'], name = resp['name'])
-            if team.name:
+
+            if resp.status_code == 422:
+                print('Team {} already exists!\n'.format(rn))                      
+            elif round(resp.status_code, -2) == 200:
+                print('Successfully created team: {}'.format(rn))
+                resp = resp.json()            
+                team = Team(team_id = resp['id'], name = resp['name'])
                 self.rgo.org.teams[team.name] = team
+
             # 4
-            self.rgo.addMemberToTeam(team_name = rn, member = name)
-            mem = Member(ghid = gh)
-            members = {}
-            members[gh] = mem
-            if team.name:
-                self.rgo.org.teams[team.name].members = members
+            resp = self.rgo.addMemberToTeam(team_name = rn, member = name)
+
+            if round(resp.status_code, -2) == 200:
+                state = resp.json()['state']
+                print('{}\'s membership on team {} is now {}.'.format(name,
+                                                                      rn,
+                                                                      state))
+                mem = Member(ghid = gh)
+                members = {}
+                members[gh] = mem
+
             # 5
             resp = self.rgo.addRepoToTeam(team_name = rn, repo_name = rn)
+
+            if round(resp.status_code, -2) == 200:
+                print('{} now has access to repo {}'.format(rn, rn))
+
             # 6
             self.lgo.createLocalRepo(student_repo = rn)
+
             # 7
             self.lgo.masterToStudent(student_repo = rn)
+
             # 8
             remote = '{}{}/{}.git'.format(__rb, self.rgo.org.name, rn)
             self.lgo.gitInit(repo = rp)
@@ -216,7 +261,13 @@ class GR:
 
         prompt = 'Please give new administrator\'s GitHub id: '
         ghid = input(prompt).strip()
-        self.rgo.addAdmin(github_id = ghid)
+        resp = self.rgo.addAdmin(github_id = ghid)
+
+        if round(resp.status_code, -2) == 400:
+            errorMessage(resp.json()['message'])
+        elif round(resp.status_code, -2) == 200:
+            print('Successfully added {} to {} as admin.'.format(ghid,
+                                                                 self.org.name))
 
     def cloneGR(self):
         self.rgo.getRepos()

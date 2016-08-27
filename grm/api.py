@@ -342,56 +342,42 @@ class RemoteGit:
     # Org functions: post/put
     # ------------------------
 
-    def createRemoteRepo(self, repo_name):
+    def createRemoteRepo(self, repo_name, private = False):
         url = gh_api + 'orgs/' + self.org.name + '/repos'
-        json = {'name': repo_name, 'private':'true'}
-        resp = self.postGR(url, json = json)
-        if round(resp.status_code, -2) == 200:
-            print('Successfully created remote {}'.format(repo_name))
+        json = {'name': repo_name}
+        if private == True:
+            json['private'] = 'true'
+        return self.postGR(url, json = json)
 
     def addMember(self, member, role = 'member'):
         mid = str(self.roster.students[member].ghid)
         url = gh_api + 'orgs/' + self.org.name + '/memberships/' + mid
         params = {'role': role}
-        resp = self.putGR(url, params = params)
-        if round(resp.status_code, -2) == 200:
-            print('Successfully added {} to {}.'.format(member,self.org.name))
-
+        return self.putGR(url, params = params)
+        
     def addAdmin(self, github_id):
         url = gh_api + 'orgs/' + self.org.name + '/memberships/' + github_id
         params = {'role': 'admin'}
-        resp = self.putGR(url, params = params)
-        if round(resp.status_code, -2) == 200:
-            print('Successfully added {} to {} as admin.'.format(github_id,
-                                                                 self.org.name))
-                                
+        return self.putGR(url, params = params)
+                                      
     def createTeam(self, team_name, permission = 'push'):
         url = gh_api + 'orgs/' + self.org.name + '/teams'
         json = {'name': team_name, 'permission': permission}
-        resp = self.postGR(url, json = json)
-        if round(resp.status_code, -2) == 200:
-            print('Successfully created team: {}'.format(team_name))
-            return resp.json()
+        return self.postGR(url, json = json)
 
     def addMemberToTeam(self, team_name, member, role = 'member'):
         mid = str(self.roster.students[member].ghid)
         tid = str(self.org.teams[team_name].team_id)
         url = gh_api + 'teams/' + tid + '/memberships/' + mid
         params = {'role': role}
-        resp = self.putGR(url, params = params)
-        if round(resp.status_code, -2) == 200:
-            state = resp.json()['state']
-            print('{}\'s membership on team {} is now {}.'.format(member,
-                                                                  team_name,
-                                                                  state))
+        return self.putGR(url, params = params)
      
     def addRepoToTeam(self, team_name, repo_name):
         tid = str(self.org.teams[team_name].team_id)
         url = gh_api + 'teams/' + tid + '/repos/' + self.org.name
         url += '/' + repo_name
         params = {'permission': 'push'}
-        resp = self.putGR(url, params = params)
-        if round(resp.status_code, -2) == 200:
-            print('{} now has access to repo {}'.format(team_name, repo_name))
+        return self.putGR(url, params = params)
+    
         
         

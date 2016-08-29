@@ -12,10 +12,12 @@ from .utils import *
 
 def main():
 
-    def __menu():
+    connect_code = 1
+
+    def __menu(cc):
 
         # update GitRoom Objects if cycling through program
-        connect_code = gr.getGitRoomObjs()
+        connect_code = gr.getGitRoomObjs(cc)
 
         # main prompt
         prompt = 'What would you like to do?'
@@ -92,7 +94,7 @@ def main():
         choice = pickOpt(prompt, ['I have another task', 'Exit'])
 
         if choice == 0:
-            __menu()
+            __menu(connect_code)
 
     # ----------------------------------        
     # Run
@@ -100,5 +102,5 @@ def main():
 
     print(startup.format(__version__, __au, __rp))
     gr = GR()
-    __menu()
+    __menu(connect_code)
     progExit()

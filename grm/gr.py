@@ -17,6 +17,7 @@ class GR:
     def __init__(self, rgo = None, lgo = None):
         self.rgo = rgo
         self.lgo = lgo
+        self.__rb = 'https://github.com/'
 
     def __str__(self):
         text = '\nGitHub ID: {}\n'.format(self.rgo.admin.ghid)
@@ -26,6 +27,13 @@ class GR:
         text += 'Local master repo.: {}\n'.format(self.lgo.master_repo)
         text += 'Local student repo. directory: {}\n'.format(self.lgo.student_repo_dir)
         return text
+
+    def _updateGitRoom(self):
+        print('\nGetting information from organization remote...')
+        self.rgo.getMembers()
+        self.rgo.getTeams()
+        self.rgo.getRepos()
+        return 0
     
     def _storeGitRoomInfo(self):
         
@@ -95,10 +103,7 @@ class GR:
             errorMessage('Not able to connect to remote.')
             return 1
 
-        self.rgo.getMembers()
-        self.rgo.getTeams()
-        self.rgo.getRepos()
-        return 0
+        return self._updateGitRoom()
                     
     def _readGitRoomInfo(self, init_file_path):
         
@@ -123,15 +128,24 @@ class GR:
                                              student_repo_dir = info['student_repo_dir'])
             return connect_code
 
-    def getGitRoomObjs(self):
+    def getGitRoomObjs(self, connect_code):
         if self.rgo and self.lgo:
-            return
+            if connect_code != 0:
+                try:
+                    self.rgo.getMembers()
+                except requests.exceptions.ConnectionError:
+                    return 1
+                return self._updateGitRoom()
+            else:
+                return 0    
         else:
             while True:
                 prompt = 'How would you like to enter GitRoom information?'
-                opts = ['Manually', 'From JSON file']
+                opts = ['Manually', 'From JSON file', '<< Exit Program >>']
                 choice = pickOpt(prompt, opts)
-                if choice == 0:
+                if choice == len(opts) - 1:
+                    progExit()
+                elif choice == 0:
                     self._initGitRoom()
                 else:
                     prompt = 'Please give path to GitRoom JSON file: '
@@ -148,8 +162,6 @@ class GR:
     # ----------------------------------
 
     def buildGR(self, from_scratch = False):
-
-        __rb = 'https://github.com/'
 
         to_add = []
 
@@ -259,7 +271,7 @@ class GR:
             self.lgo.masterToStudent(student_repo = rn)
 
             # 8
-            remote = '{}{}/{}.git'.format(__rb, self.rgo.org.name, rn)
+            remote = '{}{}/{}.git'.format(self.__rb, self.rgo.org.name, rn)
             self.lgo.gitInit(repo = rp)
             self.lgo.gitRemoteAdd(repo = rp, remote = remote)
             self.lgo.gitAdd(repo = rp)
@@ -295,7 +307,7 @@ class GR:
         
         for k,v in self.rgo.org.repos.items():
             repo = os.path.join(cdir, k)
-            remote = '{}{}/{}.git'.format(__rb, self.rgo.org.name, k)
+            remote = '{}{}/{}.git'.format(self.__rb, self.rgo.org.name, k)
             self.lgo.gitClone(repo = repo, remote = remote)
 
     def updateGR(self):

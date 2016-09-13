@@ -84,13 +84,13 @@ class Grader:
         self._selectGrader()
         status = self._choiceFlow(self.lgo.student_repo_dir)
 
-        if status != 0:
+        while status != 0:
                    
             prompt = 'Would you like to grade another?'
             choice = pickOpt(prompt, ['Yes','No'])
             if choice == 0:
-                self._choiceFlow(os.path.dirname(file_to_grade))
+                status = self._choiceFlow(self.lgo.student_repo_dir)
             else:
-                self._quitGrader()
+                status = self._quitGrader()
             
 

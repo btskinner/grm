@@ -2,7 +2,9 @@ GitRoom Manager
 ===============
 
 [![Build
-Status](https://travis-ci.org/btskinner/grm.svg?branch=master)](https://travis-ci.org/btskinner/grm)
+Status](https://travis-ci.org/btskinner/grm.svg?branch=master)](https://travis-ci.org/btskinner/grm)  
+[![GitHub
+release](https://img.shields.io/github/release/btskinner/grm.svg)](https://github.com/btskinner/grm)
 [![PyPI
 version](https://badge.fury.io/py/grm.svg)](https://badge.fury.io/py/grm)
 

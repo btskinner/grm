@@ -17,7 +17,8 @@ class GR:
     def __init__(self, rgo = None, lgo = None):
         self.rgo = rgo
         self.lgo = lgo
-        self.__rb = 'https://github.com/'
+        # self.__rb = 'https://github.com/'
+        self.__rb = 'git@github.com:'
 
     def __str__(self):
         text = '\nGitHub ID: {}\n'.format(self.rgo.admin.ghid)

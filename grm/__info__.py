@@ -1,7 +1,7 @@
-__version__ = '0.2.2'
+__version__ = '0.3.0'
 __gh = 'https://github.com/btskinner/'
 __nm = 'grm'
 __rp = '{}{}'.format(__gh, __nm)
 __dl = '{}{}/archive/{}-v{}.tar.gz'.format(__gh, __nm, __nm, __version__)
 __au = 'Benjamin Skinner'
-__em = 'b.skinner@vanderbilt.edu'
+__em = 'btskinner@coe.ufl.edu'

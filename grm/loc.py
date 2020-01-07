@@ -113,6 +113,7 @@ class LocalGit:
     def masterToStudent(self, student_repo):
         args = ["rsync", "-r",
                 "--exclude", "_*",  # protected directories
+                "--include", ".gitignore", # include .gitignore file
                 "--exclude", ".*",  # ignore hidden dot files
                 "--exclude", ".*/", # ignore hidden dot directories
                 self.master_repo + "/",

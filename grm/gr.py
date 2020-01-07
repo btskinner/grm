@@ -14,11 +14,10 @@ class GR:
     Class for GitRoom initialization/reading functions
     '''
 
-    def __init__(self, rgo = None, lgo = None):
+    def __init__(self, rgo = None, lgo = None, tfa=False):
         self.rgo = rgo
         self.lgo = lgo
-        # self.__rb = 'https://github.com/'
-        self.__rb = 'git@github.com:'
+        self.__rb = 'git@github.com:' if tfa else 'https://github.com/'
 
     def __str__(self):
         text = '\nGitHub ID: {}\n'.format(self.rgo.admin.ghid)

@@ -14,7 +14,7 @@ class GR:
     Class for GitRoom initialization/reading functions
     '''
 
-    def __init__(self, rgo = None, lgo = None, tfa=False):
+    def __init__(self, rgo = None, lgo = None, tfa=True):
         self.rgo = rgo
         self.lgo = lgo
         self.__rb = 'git@github.com:' if tfa else 'https://github.com/'
@@ -386,7 +386,7 @@ class GR:
                 self.lgo.gitPush(repo = repo_path)
         else:
             repo_path = os.path.join(self.lgo.student_repo_dir, opts[choice])
-            self.lgo.gitPull(repo = repo)
+            # self.lgo.gitPull(repo = repo)
             self.lgo.gitPull(repo = repo_path)
             self.lgo.gitAdd(repo = repo_path)
             self.lgo.gitCommit(repo = repo_path, message = comment)

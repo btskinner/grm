@@ -48,6 +48,8 @@ You may also install with pip:
 ```bash
 pip install grm
 ```
+*NOTE:* Depending on your installation may need to use `pip3` in place of 
+`pip`.
 
 Usage
 -----

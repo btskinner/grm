@@ -1,7 +1,7 @@
 # __init__.py
 # -*- coding: utf-8 -*-
 
-from .__info__ import __version__, __au, __rp
+from .__info__ import __version__, __au, __dc, __rp
 
 from .gr import *
 from .api import *
@@ -100,7 +100,14 @@ def main():
     # Run
     # ----------------------------------
 
-    print(startup.format(__version__, __au, __rp))
+    print(startup.format(__version__, __au, __dc, __rp))
+
+    comp = Completer()
+    # we want to treat '/' as part of a word, so override the delimiters
+    readline.set_completer_delims(' \t\n;')
+    readline.parse_and_bind("tab: complete")
+    readline.set_completer(comp.pathCompleter)
+
     gr = GR()
     __menu(connect_code)
     progExit()

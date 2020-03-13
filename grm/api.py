@@ -16,10 +16,13 @@ class Admin:
     Class for primary GitHub Classrom management functions
     '''
     
-    def __init__(self, ghid = None, token_file = None, token = None):
+    def __init__(self, ghid = None, token_file = None, token = None,
+                 protocol = None, proturl = None):
         self.ghid = ghid
         self.token_file = token_file
         self.__token = token
+        self.protocol = protocol
+        self.proturl = proturl
 
     def __str__(self):
         t = None if self.__token is None else '[ Hidden ]'
@@ -188,10 +191,19 @@ class RemoteGit:
                 errorMessage('Not a proper file!')
                 continue
 
+    def setProtocol(self, protocol = None, **kwargs):
+        if not protocol:
+            mess = 'Do you use HTTPS or SSH to interact with GitHub via the CLI?'
+            choice = pickOpt(mess, ['HTTPS [default]', 'SSH'])
+            protocol = 'HTTPS' if choice == 0 else 'SSH'
+        proturl = 'git@github.com:' if protocol == 'SSH' else 'https://github.com/'
+        return protocol, proturl
+
     def setAPICreds(self, **kwargs):
         admin = Admin()
         admin.ghid = self.setLogin(**kwargs)
         admin.token_file, admin._Admin__token = self.setToken(**kwargs)
+        admin.protocol, admin.proturl = self.setProtocol(**kwargs)
         self.admin = admin
 
     def setOrg(self, **kwargs):
@@ -200,6 +212,8 @@ class RemoteGit:
             mess = 'Please enter your organization name: '
             org.name = input(mess)
         self.org = org
+
+    
 
     # ------------------------
     # Roster functions

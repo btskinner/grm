@@ -18,6 +18,7 @@ startup = '''
 
 Version: {0}
 Author: {1}
-URL: {2}
+Documentation: {2}
+REPO: {3}
 LICENSE: MIT
 '''

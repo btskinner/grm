@@ -1,30 +1,26 @@
 language: python
 python:
-  - "3.5"
-  - "3.6"      
-  - "3.7"
-  - "3.8"
-  - "3.8-dev"
-  # - "pypy3"
-
+- '3.5'
+- '3.6'
+- '3.7'
+- '3.8'
+- 3.8-dev
 install:
-  - pip install -r requirements.txt
-  - python setup.py install
-
+- pip install -r requirements.txt
+- python setup.py install
 script:
-  - "./tests/test.sh"
-
+- "./tests/test.sh"
 notifications:
   email:
     recipients:
-      - btskinner@coe.ufl.edu
+    - btskinner@coe.ufl.edu
     on_success: change
     on_failure: change
-
 deploy:
-  - provider: pypi
-    user: btskinner
-    password:
-      secure: "BB8RSn6OSMHPqzeTFzMZmoAtVFzvaEbYDTw/t+er6j2UDZNMdAFljFCrO5bwpRKRBqQG646v+Y7SO2ZVGKPhP+xUl2zwFCl3wT95IPtCrDBhPKjuOF9p/xJ96hnzjjQ1r4ZA6VMhXlgSf1CMLwlBgebFIaHGruSsTkEtCjkYNTxncc97+fAmX7g0p6F0zytL7yyz8ULPa5EEgyQcmU3F7xC2RRbMk56k6cqESjz5bcEZpqFIbTIjyG/J6dlSior2gX80mrEqY+PSh+0PbA5bYpoH2Fjs7CzsIQGiSQJ+ANBWyiYG0rdvORc1Nrm8O242UW4bupKUwoCdPSsActVjyH7VHf5+xootuZhF9gHi+IKITSjf1Q0w3JODnFSUq73GBhHnCpY+7IvVqidWK+8dLNfYbbJo96gb4DtikzKFKSfufT0Ffi7RD3cFVgnmTd7fCvbJ1ybIbMRjEPSuEV0NjCSgU+6c1WdUkwILFbV2sYPcEYR5raF0jxsh8jCeDSv2v2ZOJw4esGbfHsSR6zTfAuXWrzIQ2oUTeCrCLKxF+TqqPVock0XvegLItEDgfBNCFHkjuc/m5YRoDkPvckFC0XIvVcU+zQFNshwtZ1Ny5cwcvhObsR/IrtyV3EGILGX3+u+B3keE3I362+GVYOZebLST6q9mLHn1ZAqrwYovL8k="
-    on:
-      tags: true
+- provider: pypi
+  user: btskinner
+  password:
+    secure: VUUw/IbGc3MmNdlKhkMrF5JE6AtMcY4CYKvGLAZ8MJUEGqpi7i5Fh69Euldm5J423nKkyIXXZGHP60O4o2mz0PtjHR/EtAi89ITipMQ8T/OeIaPCru3akuhWrS8PoFKgquVviCnHYi5uG6VT2gIi60g3AkuA9j3rFzonsF8gdEPN0quJhVij9WNUB81BOSTvDoP53CNLpIQeTU5bFeAqjPsbQSv0gTj4jeg/7lndPDrXs434bf+tJ4JS+HlJ4ggL4VWMGG0etzqVyZu+JJu1Io0vB3QS+Y16T9dleUYIhAxra1RQVy/ku5F9NOuHtGtC0y7gd21SFZC4Lmj302+8C+OLPiA+wf7hdpWO5uCEvBrtfydfrsM0vkQ0QO644FPqgRgcwj/Ezo0QO9zkaRdS7KkoJgI1K+3m5a1vZwbzmu9Vinw/K9EgAUW2GJnyOdehQulxbMAHRStAZRWqDkGftAnUE22xCIVz/gArLxHen2SVML+DCxiCsQC/VemnH5VaH3n7L1MZ0FRf6XpBpnahX5Xu1LZVRcKfvgXWMOhkn5W/Qx76Zr1x9nr1CscfUdhDB2mPgD1egC7KU4ZDwDKk5JD1tDfDFIK5ATWCdg1q+JE/8pkGCfbO1j83YqpM0ke5mS+L9pdH0EMvH6p8u3BZy8samYyYDWG0sLLb7mIu1ic=
+  on:
+    tags: true
+    

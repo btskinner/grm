@@ -111,13 +111,23 @@ class LocalGit:
             pass
 
     def masterToStudent(self, student_repo):
+        if _platform == "Windows":
+            mr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.master_repo)
+            mr_path = re.sub(r'^(.+):(.*)$', r'\2', self.master_repo)
+            mr = '/' + mr_drive.lower() + mr_path
+            sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo)
+            sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo)
+            sr = '/' + sr_drive.lower() + sr_path
+        else:
+            mr = self.master_repo
+            sr = self.student_repo
         args = ["rsync", "-r",
                 "--exclude", "_*",  # protected directories
                 "--include", ".gitignore", # include .gitignore file
                 "--exclude", ".*",  # ignore hidden dot files
                 "--exclude", ".*/", # ignore hidden dot directories
-                self.master_repo + "/",
-                os.path.join(self.student_repo_dir, student_repo)]
+                mr + "/",
+                os.path.join(sr, student_repo)]
         bequiet = sp.run(args)
         bequiet = None
         

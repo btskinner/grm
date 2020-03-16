@@ -5,6 +5,8 @@ import os
 import sys
 import readline
 import glob
+import re
+from sys import platform as _platform
 
 # tab completer h/t https://gist.github.com/iamatypeofwalrus/5637895
 class Completer(object):

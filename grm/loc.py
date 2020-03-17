@@ -3,6 +3,7 @@
 
 import os
 import subprocess as sp
+import platform
 
 from .utils import *
 
@@ -111,12 +112,12 @@ class LocalGit:
             pass
 
     def masterToStudent(self, student_repo):
-        if _platform == "Windows":
+        if platform.system() == "Windows":
             mr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.master_repo)
             mr_path = re.sub(r'^(.+):(.*)$', r'\2', self.master_repo)
             mr = '/' + mr_drive.lower() + mr_path
-            sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo)
-            sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo)
+            sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo_dir)
+            sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo_dir)
             sr = '/' + sr_drive.lower() + sr_path
         else:
             mr = self.master_repo

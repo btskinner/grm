@@ -121,7 +121,7 @@ class LocalGit:
             sr = '/' + sr_drive.lower() + sr_path
         else:
             mr = self.master_repo
-            sr = self.student_repo
+            sr = self.student_repo_dir
         args = ["rsync", "-r",
                 "--exclude", "'_*'",  # protected directories
                 "--include", "'.gitignore'", # include .gitignore file

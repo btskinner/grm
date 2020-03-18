@@ -348,8 +348,9 @@ class RemoteGit:
         resp = self.getGR(url)
         repos = {}
         for r in resp:
-            repo = Repository(name = r['name'], repo_id = r['id'])
-            repos[r['name']] = repo
+            if r['name'].startswith('student_'):
+                repo = Repository(name = r['name'], repo_id = r['id'])
+                repos[r['name']] = repo
         self.org.repos = repos
 
     # ------------------------

@@ -123,10 +123,10 @@ class LocalGit:
             mr = self.master_repo
             sr = self.student_repo
         args = ["rsync", "-r",
-                "--exclude", "_*",  # protected directories
-                "--include", ".gitignore", # include .gitignore file
-                "--exclude", ".*",  # ignore hidden dot files
-                "--exclude", ".*/", # ignore hidden dot directories
+                "--exclude", "'_*'",  # protected directories
+                "--include", "'.gitignore'", # include .gitignore file
+                "--exclude", "'.*'",  # ignore hidden dot files
+                "--exclude", "'.*/'", # ignore hidden dot directories
                 mr + "/",
                 os.path.join(sr, student_repo)]
         bequiet = sp.run(args)

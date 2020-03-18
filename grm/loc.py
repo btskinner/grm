@@ -119,16 +119,23 @@ class LocalGit:
             sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo_dir)
             sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo_dir)
             sr = '/' + sr_drive.lower() + sr_path
+            args = ["rsync", "-r",
+                    "--exclude", "'_*'",  # protected directories
+                    "--include", "'.gitignore'", # include .gitignore file
+                    "--exclude", "'.*'",  # ignore hidden dot files
+                    "--exclude", "'.*/'", # ignore hidden dot directories
+                    mr + "/",
+                    os.path.join(sr, student_repo)]
         else:
             mr = self.master_repo
             sr = self.student_repo_dir
-        args = ["rsync", "-r",
-                "--exclude", "'_*'",  # protected directories
-                "--include", "'.gitignore'", # include .gitignore file
-                "--exclude", "'.*'",  # ignore hidden dot files
-                "--exclude", "'.*/'", # ignore hidden dot directories
-                mr + "/",
-                os.path.join(sr, student_repo)]
+            args = ["rsync", "-r",
+                    "--exclude", "_*",  # protected directories
+                    "--include", ".gitignore", # include .gitignore file
+                    "--exclude", ".*",  # ignore hidden dot files
+                    "--exclude", ".*/", # ignore hidden dot directories
+                    mr + "/",
+                    os.path.join(sr, student_repo)]
         bequiet = sp.run(args)
         bequiet = None
         

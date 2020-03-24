@@ -113,12 +113,14 @@ class LocalGit:
 
     def masterToStudent(self, student_repo):
         if platform.system() == "Windows":
-            mr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.master_repo)
-            mr_path = re.sub(r'^(.+):(.*)$', r'\2', self.master_repo)
-            mr = mr_drive.lower() + mr_path
-            sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo_dir)
-            sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo_dir)
-            sr = sr_drive.lower() + sr_path
+            # mr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.master_repo)
+            # mr_path = re.sub(r'^(.+):(.*)$', r'\2', self.master_repo)
+            # mr = mr_drive.lower() + mr_path
+            # sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo_dir)
+            # sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo_dir)
+            # sr = sr_drive.lower() + sr_path
+            mr = self.master_repo
+            sr = self.student_repo_dir
             args = ["rsync", "-r",
                     "--exclude", "'_*'",  # protected directories
                     "--include", "'.gitignore'", # include .gitignore file

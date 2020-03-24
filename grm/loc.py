@@ -115,10 +115,10 @@ class LocalGit:
         if platform.system() == "Windows":
             mr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.master_repo)
             mr_path = re.sub(r'^(.+):(.*)$', r'\2', self.master_repo)
-            mr = '/' + mr_drive.lower() + mr_path
+            mr = mr_drive.lower() + mr_path
             sr_drive = re.sub(r'^(.+):(.*)$', r'\1', self.student_repo_dir)
             sr_path = re.sub(r'^(.+):(.*)$', r'\2', self.student_repo_dir)
-            sr = '/' + sr_drive.lower() + sr_path
+            sr = sr_drive.lower() + sr_path
             args = ["rsync", "-r",
                     "--exclude", "'_*'",  # protected directories
                     "--include", "'.gitignore'", # include .gitignore file

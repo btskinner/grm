@@ -2,7 +2,7 @@ GitRoom Manager
 ===============
 
 [![Build
-Status](https://travis-ci.org/btskinner/grm.svg?branch=master)](https://travis-ci.org/btskinner/grm)
+Status](https://travis-ci.org/btskinner/grm.svg?branch=main)](https://travis-ci.org/btskinner/grm)
 [![GitHub
 release](https://img.shields.io/github/release/btskinner/grm.svg)](https://github.com/btskinner/grm)
 [![PyPI](https://img.shields.io/pypi/v/grm)](https://pypi.org/project/grm/)
@@ -79,4 +79,4 @@ Manual
 ------
 
 A more complete manual for GitRoom Manager can be found at
-[btskinner.me/grm](http://btskinner.me/grm)
+[btskinner.io/grm](http://btskinner.io/grm)

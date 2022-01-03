@@ -79,11 +79,11 @@ Manual
 ------
 
 A more complete manual for GitRoom Manager can be found at
-`btskinner.me/grm <http://btskinner.me/grm>`__
+`btskinner.io/grm <http://btskinner.io/grm>`__
 
 
 
-.. |Build Status| image:: https://travis-ci.org/btskinner/grm.svg?branch=master
+.. |Build Status| image:: https://travis-ci.org/btskinner/grm.svg?branch=main
    :target: https://travis-ci.org/btskinner/grm
 .. |PyPI version| image:: https://badge.fury.io/py/grm.svg
    :target: https://badge.fury.io/py/grm

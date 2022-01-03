@@ -1,7 +1,7 @@
 
 graph LR	
 subgraph Instructor
-lmr[Master Repo] --> ls1[Student 1]
+lmr[Main Repo] --> ls1[Student 1]
 lmr --> ls2[Student 2]
 lmr --> ls3[Student 3]
 end

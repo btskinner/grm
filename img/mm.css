@@ -27,6 +27,7 @@
 }
 .cluster text {
     fill: #333;
+    font-size: 24px;
 }
 .actor {
     stroke: #CCCCFF;

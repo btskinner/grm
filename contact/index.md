@@ -6,7 +6,7 @@ title: contact
 # Author and maintainer
 
 Benjamin Skinner  
-[btskinner.me](http://btskinner.me)  
+[btskinner.io](http://btskinner.io)  
 
 
 # Bug reports

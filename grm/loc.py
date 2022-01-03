@@ -12,26 +12,26 @@ class LocalGit:
     Class for local machine system management
     '''
 
-    def __init__(self, master_repo = None, student_repo_dir = None):
-        if master_repo:
-            master_repo = os.path.expanduser(master_repo).rstrip('/')
+    def __init__(self, main_repo = None, student_repo_dir = None):
+        if main_repo:
+            main_repo = os.path.expanduser(main_repo).rstrip('/')
         if student_repo_dir:
             student_repo_dir = os.path.expanduser(student_repo_dir).rstrip('/')
-        self.master_repo = master_repo
+        self.main_repo = main_repo
         self.student_repo_dir = student_repo_dir
 
     def __str__(self):
-        text = 'Local master repo: {}\n'.format(self.master_repo)
+        text = 'Local main repo: {}\n'.format(self.main_repo)
         text += 'Local student repo directory: {}'.format(self.student_repo_dir)
         return text
 
-    def set_master_repo(self, master_repo = None):
-        if master_repo:
-            self.master_repo = master_repo.rstrip('/')
+    def set_main_repo(self, main_repo = None):
+        if main_repo:
+            self.main_repo = main_repo.rstrip('/')
             return
 
         while True:
-            prompt = 'Please give path to course master repository: '
+            prompt = 'Please give path to course main repository: '
             mrp = input(str(prompt)).strip()
             try:
                 mrp = os.path.expanduser(mrp)
@@ -40,7 +40,7 @@ class LocalGit:
                 errorMessage('Please input a proper path.')
                 continue
 
-            self.master_repo = mrp.rstrip('/')
+            self.main_repo = mrp.rstrip('/')
             return
 
     def set_student_repo_dir(self, student_repo_dir = None):
@@ -70,6 +70,11 @@ class LocalGit:
         bequiet = sp.run(args)
         bequiet = None
 
+    def gitBranchToMain(self, repo):
+        args = ["git", "-C", repo, "branch", "-M", "main"]
+        bequiet = sp.run(args)
+        bequiet = None
+
     def gitRemoteAdd(self, repo, remote, remote_name = 'origin'):
         args = ["git", "-C", repo, "remote", "add", remote_name, remote]
         bequiet = sp.run(args)
@@ -85,7 +90,7 @@ class LocalGit:
         bequiet = sp.run(args)
         bequiet = None
 
-    def gitPush(self, repo, remote_name = 'origin', local_branch = 'master'):
+    def gitPush(self, repo, remote_name = 'origin', local_branch = 'main'):
         args = ["git", "-C", repo, "push", "-u", remote_name, local_branch]
         bequiet = sp.run(args)
         bequiet = None
@@ -110,13 +115,13 @@ class LocalGit:
         except FileExistsError:
             pass
 
-    def masterToStudent(self, student_repo):
+    def mainToStudent(self, student_repo):
         args = ["rsync", "-r",
                 "--exclude", "_*",  # protected directories
                 "--include", ".gitignore", # include .gitignore file
                 "--exclude", ".*",  # ignore hidden dot files
                 "--exclude", ".*/", # ignore hidden dot directories
-                self.master_repo + "/",
+                self.main_repo + "/",
                 os.path.join(self.student_repo_dir, student_repo)]
         bequiet = sp.run(args)
         bequiet = None

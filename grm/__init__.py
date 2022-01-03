@@ -65,7 +65,7 @@ def main():
 
             gr.cloneGR()
 
-        # (5) Update student remote repositories with local master
+        # (5) Update student remote repositories with local main
         elif choice == 4:
 
             gr.updateGR()

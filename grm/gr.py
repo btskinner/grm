@@ -24,7 +24,7 @@ class GR:
         text += 'Protocol: {}\n'.format(self.rgo.admin.protocol)
         text += 'Organization name: {}\n'.format(self.rgo.org.name)
         text += 'Roster file: {}\n'.format(self.rgo.roster.path)
-        text += 'Local master repo.: {}\n'.format(self.lgo.master_repo)
+        text += 'Local main repo.: {}\n'.format(self.lgo.main_repo)
         text += 'Local student repo. directory: {}\n'.format(self.lgo.student_repo_dir)
         return text
 
@@ -49,7 +49,7 @@ class GR:
                     'github_protocol': self.rgo.admin.protocol,
                     'organization_name': self.rgo.org.name,
                     'roster_file': self.rgo.roster.path,
-                    'master_repo': self.lgo.master_repo,
+                    'main_repo': self.lgo.main_repo,
                     'student_repo_dir': self.lgo.student_repo_dir}
             
             with open(odir + '/' + self.rgo.org.name + '_grm.json', 'w') as f:
@@ -58,7 +58,7 @@ class GR:
             break
 
     def _initGitRoom(self, github_login = None, token_file = None,
-                     orgname = None, roster_file = None, master_repo = None,
+                     orgname = None, roster_file = None, main_repo = None,
                      student_repo_dir = None, github_protocol = None):
 
         # remote git inits
@@ -71,12 +71,12 @@ class GR:
         
         # local git inits
         self.lgo = LocalGit()
-        self.lgo.set_master_repo(master_repo = master_repo)
+        self.lgo.set_main_repo(main_repo = main_repo)
         self.lgo.set_student_repo_dir(student_repo_dir = student_repo_dir)
 
         # option to store inits if any were missing
         if (not github_login or not token_file or not orgname
-            or not roster_file or not master_repo or not student_repo_dir
+            or not roster_file or not main_repo or not student_repo_dir
             or not github_protocol):
             print('*' * 50)
             print('\nThis is what you have entered:\n')
@@ -96,7 +96,7 @@ class GR:
                 if choice == 0:
                     self._initGitRoom(github_login = None, token_file = None,
                                       orgname = None, roster_file = None,
-                                      master_repo = None, student_repo_dir = None,
+                                      main_repo = None, student_repo_dir = None,
                                       github_protocol = None)
                 else:
                     progExit()
@@ -117,7 +117,7 @@ class GR:
             
             req_keys = ['github_login', 'github_token_file',
                         'organization_name', 'roster_file',
-                        'master_repo', 'student_repo_dir',
+                        'main_repo', 'student_repo_dir',
                         'github_protocol']
 
             for k in req_keys:
@@ -130,7 +130,7 @@ class GR:
                                              token_file = info['github_token_file'],
                                              orgname = info['organization_name'],
                                              roster_file = info['roster_file'],
-                                             master_repo = info['master_repo'],
+                                             main_repo = info['main_repo'],
                                              student_repo_dir = info['student_repo_dir'],
                                              github_protocol = info['github_protocol'])
             return connect_code
@@ -210,7 +210,7 @@ class GR:
         # 4. [Remote] Add student to team
         # 5. [Remote] Add repo to team
         # 6. [Local] Create student's local repo
-        # 7. [Local] Copy files from master to student's repo
+        # 7. [Local] Copy files from main to student's repo
         # 8. [Local] Add, commit, push local student repo to remote
         
         for name in to_add:
@@ -275,11 +275,12 @@ class GR:
             self.lgo.createLocalRepo(student_repo = rn)
 
             # 7
-            self.lgo.masterToStudent(student_repo = rn)
+            self.lgo.mainToStudent(student_repo = rn)
 
             # 8
             remote = '{}{}/{}.git'.format(self.rgo.admin.proturl, self.rgo.org.name, rn)
             self.lgo.gitInit(repo = rp)
+            self.lgo.gitBranchToMain(repo = rp)
             self.lgo.gitRemoteAdd(repo = rp, remote = remote)
             self.lgo.gitAdd(repo = rp)
             self.lgo.gitCommit(repo = rp, message = 'Init course repo')
@@ -334,7 +335,7 @@ class GR:
             if not os.path.isdir(repo_path):
                 continue
             self.lgo.gitPull(repo = repo_path)
-            self.lgo.masterToStudent(student_repo = repo)
+            self.lgo.mainToStudent(student_repo = repo)
             self.lgo.gitAdd(repo = repo_path)
             self.lgo.gitCommit(repo = repo_path, message = comment)
             self.lgo.gitPush(repo = repo_path)  

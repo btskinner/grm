@@ -26,7 +26,7 @@ def main():
                     'Add students to class',
                     'Add new administrator',
                     'Clone repositories',
-                    'Update student remote repositories with local master',
+                    'Update student remote repositories with local main',
                     'Pull down from remote student repositories',
                     'Push from local student repositories to remotes',
                     'Grade student assignments',

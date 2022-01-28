@@ -53,7 +53,7 @@ own (*e.g.*, submit assignments).
 ## (5) Instructor pulls down from student remote repos to grade assignments
 
 As with the first step, the instructor updates the local student repos
-with their respective remotes. S/he now can inspect student work
+with their respective remotes. They now can inspect student work
 manually or use the grader function to make quick notes on text files.
 
 ![](../img/pull.md.png)
@@ -70,7 +70,7 @@ files, only uses them to update the student repositories.
 I assume, however, that most instructors will also want the main
 course files to be a git repository. If that is the case, then the
 user must maintain the main course repository outside of GitRoom
-Manager as s/he would normally. GitRoom Manager has been built to
+Manager as they would normally. GitRoom Manager has been built to
 handle this situation and will ignore certain files/directories, such
 as the main `.git` directory, when copying from the main to student
 repos.
@@ -97,5 +97,5 @@ assignment files (fill in the blank).
 An easy solution is to have students create new files for notes or
 homework, or rename the original files. The instructor can also
 include a blank student use directory (*e.g.*, `working`) in the main
-course repo that s/he promises not to use but instead is for the use
+course repo that they promises not to use but instead is for the use
 of the students. 
